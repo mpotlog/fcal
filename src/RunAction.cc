@@ -16,8 +16,8 @@ using namespace std;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-RunAction::RunAction(EventAction* eventAction) 
- : G4UserRunAction(), 
+RunAction::RunAction(EventAction* eventAction)
+ : G4UserRunAction(),
  fEventAction(eventAction)
 {
     // Create analysis manager
@@ -33,13 +33,13 @@ RunAction::RunAction(EventAction* eventAction)
   // Creating ntuples
     if ( fEventAction ) {
         analysisManager->CreateNtuple("LumicalTree", "Calorimeter data");
-         
-        analysisManager->CreateNtupleIColumn("Hits");                               // Id = 0
+
+        analysisManager->CreateNtupleIColumn("nHits");                               // Id = 0
         analysisManager->CreateNtupleIColumn("Plan", fEventAction->fCalPlan);       // Id = 1
         analysisManager->CreateNtupleIColumn("Sector", fEventAction->fCalZone);     // Id = 2
         analysisManager->CreateNtupleIColumn("Pad",  fEventAction->fCalPad);        // Id = 3
-        analysisManager->CreateNtupleDColumn("TotEne", fEventAction->fCalTotEne);   // Id = 4
-        
+        analysisManager->CreateNtupleDColumn("Energy", fEventAction->fCalEne);      // Id = 4
+
         analysisManager->CreateNtupleDColumn("pos_x", fEventAction->fCalX);         // Id = 5
         analysisManager->CreateNtupleDColumn("pos_y", fEventAction->fCalY);         // Id = 6
         analysisManager->CreateNtupleDColumn("pos_z", fEventAction->fCalZ);         // Id = 7
@@ -56,12 +56,12 @@ RunAction::RunAction(EventAction* eventAction)
             columname += nameformat.str();
             nameformat.str("");
             edname = columname;
-      
+
             analysisManager->CreateNtupleDColumn(edname);
         }
-       
+
        analysisManager->FinishNtuple();
-    }    
+    }
 }
 
 
@@ -79,7 +79,7 @@ void RunAction::BeginOfRunAction(const G4Run* )
 
 void RunAction::EndOfRunAction(const G4Run*)
 {
-    // save histograms 
+    // save histograms
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
     analysisManager->Write();
     analysisManager->CloseFile();
