@@ -40,7 +40,7 @@ void LumicalSD::Initialize(G4HCofThisEvent* hce)
     if (fLumiCalHCID<0)
     { fLumiCalHCID = G4SDManager::GetSDMpointer()->GetCollectionID(fHitsCollection); }
     hce->AddHitsCollection(fLumiCalHCID,fHitsCollection);
-  
+
     // Hit collection is created at the begining of each event
     for(G4int plan=33; plan<244; plan+=15){
         for(G4int zone=0; zone<4; zone++){
@@ -57,51 +57,43 @@ void LumicalSD::Initialize(G4HCofThisEvent* hce)
 // --- core of the SD, running whenever a step is inside the assigned volume(s) ------
 G4bool LumicalSD::ProcessHits(G4Step* step, G4TouchableHistory*)
 {
-    //const G4StepPoint* endPoint = step->GetPostStepPoint(); 
+    //const G4StepPoint* endPoint = step->GetPostStepPoint();
     // check that an real interaction occured (eg. not a transportation)
     //G4StepStatus stepStatus = endPoint->GetStepStatus();
     //G4bool transmit = (stepStatus==fGeomBoundary || stepStatus==fWorldBoundary);
     //if (transmit) return true;
 
     //-----------create a hit and populate it with the information ----------
-        
-    G4double edep = (step->GetTotalEnergyDeposit()/MeV) - (step->GetNonIonizingEnergyDeposit()/MeV);
+
+    // G4double edep = (step->GetTotalEnergyDeposit()/MeV) - (step->GetNonIonizingEnergyDeposit()/MeV);
+    G4double edep = (step->GetTotalEnergyDeposit()/MeV);
     if (edep <= 0.) return true;
-    
-        
+
+
     G4StepPoint* preStepPoint = step->GetPreStepPoint();
     G4TouchableHistory* touchable = (G4TouchableHistory*)(preStepPoint->GetTouchable());
-    G4ThreeVector position = step->GetTrack()->GetPosition();    // position in mm
-   
+    // G4ThreeVector position = step->GetTrack()->GetPosition();    // position in mm
+
     //G4int plan = touchable->GetCopyNumber(3);
     G4int plan = touchable->GetReplicaNumber(2);
     G4int zone = touchable->GetReplicaNumber(1);
     G4int pad  = touchable->GetReplicaNumber(0);
-   
+
     G4int padID = pad + 64 * zone + 256 * ((plan-33)/15);
     LumicalHit *hit = (*fHitsCollection)[padID];
 
-    hit->totene += edep;
-    
-    //G4ThreeVector position = preStepPoint->GetPosition();
-    hit->x = position.getX();
-    hit->y = position.getY();
-    hit->z = position.getZ();
+    hit->fEdep += edep;
+
+    G4ThreeVector position = preStepPoint->GetPosition();
+    hit->fX = position.getX();
+    hit->fY = position.getY();
+    hit->fZ = position.getZ();
 
     G4ThreeVector momentum = preStepPoint->GetMomentum();
-    hit->px = momentum.getX();
-    hit->py = momentum.getY();
-    hit->pz = momentum.getZ();
-    
-     
-    hit->SetEdep(edep); 
-    //fHitsCollection -> insert(hit);
-      
+    hit->fPx = momentum.getX();
+    hit->fPy = momentum.getY();
+    hit->fPz = momentum.getZ();
+
     return true;
-   
+
 }
-
-
-
-
-

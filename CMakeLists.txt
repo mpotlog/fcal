@@ -5,14 +5,14 @@ project(Fcal2020)
 
 
 # root flags
-set(CMAKE_EXE_LINKER_FLAGS "-L/home/mpotlog/physics-tools/root6.18/build/lib/ -lCore -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic")
+#set(CMAKE_EXE_LINKER_FLAGS "-L/home/mpotlog/physics-tools/root6.18/build/lib/ -lCore -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic")
 
-SET(CMAKE_MODULE_PATH /home/mpotlog/physics-tools/geant4.10.06/source/cmake/Modules/)
-find_package(ROOT)
-include_directories(/home/mpotlog/physics-tools/root6.18/build/include/)
-
-option(ANALYSIS_HH_ "Build with ROOT" 1)
-add_definitions(-DG4UI_USE -DG4VIS_USE -DANALYSIS_HH_)
+#SET(CMAKE_MODULE_PATH /home/mpotlog/physics-tools/geant4.10.06/source/cmake/Modules/)
+# find_package(ROOT)
+# include_directories(${PROJECT_SOURCE_DIR}/include/)
+#
+# option(ANALYSIS_HH_ "Build with ROOT" 1)
+# add_definitions(-DG4UI_USE -DG4VIS_USE -DANALYSIS_HH_)
 
 
 #----------------------------------------------------------------------------
@@ -33,7 +33,7 @@ endif()
 # Setup Geant4 include directories and compile definitions
 # Setup include directory for this project
 #
-include(${Geant4_USE_FILE})
+# include(${Geant4_USE_FILE})
 #
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -73,10 +73,9 @@ endforeach()
 # For internal Geant4 use - but has no effect if you build this
 # example standalone
 #
-add_custom_target(Fcal2020 DEPENDS fcal)
+# add_custom_target(Fcal2020 DEPENDS fcal)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
 install(TARGETS fcal DESTINATION bin)
-

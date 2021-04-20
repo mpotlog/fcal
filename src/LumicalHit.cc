@@ -8,43 +8,20 @@
 #include "G4AttValue.hh"
 #include "G4VisAttributes.hh"
 #include "G4SystemOfUnits.hh"
- 
+
 #include "G4UnitsTable.hh"
-#include "G4ios.hh" 
- 
-G4ThreadLocal G4Allocator<LumicalHit>* LumicalHitAllocator = 0; 
- 
+#include "G4ios.hh"
+
+G4ThreadLocal G4Allocator<LumicalHit>* LumicalHitAllocator = 0;
+
 
 LumicalHit::LumicalHit(G4int pl, G4int zn, G4int pd)
     :G4VHit(),
-    plan1(pl), zone(zn), pad(pd), totene(0.), fEdep(0.)
-  // fTrackLength(0.)
-{}
-    
-LumicalHit::~LumicalHit()
-{}
-  
+    fPlan(pl), fZone(zn), fPad(pd), fEdep(0.){}
 
-LumicalHit::LumicalHit(const LumicalHit &right)
- : G4VHit() 
-{
-  fEdep        = right.fEdep;
-  //fTrackLength = right.fTrackLength;
-}
+LumicalHit::~LumicalHit(){}
 
 
-const LumicalHit& LumicalHit::operator=(const LumicalHit& right)
-{
-  fEdep        = right.fEdep;
-  //fTrackLength = right.fTrackLength;
-
-  return *this;
-}
-
-G4bool LumicalHit::operator==(const LumicalHit& right) const
-{
-  return ( this == &right ) ? true : false;
-}
 
 
 /*
