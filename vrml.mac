@@ -1,0 +1,33 @@
+/control/verbose 2
+/run/verbose 2
+#/event/verbose 2
+#/tracking/verbose 2
+#
+# create empty scene
+/vis/scene/create
+#
+# Create a scene handler for a specific graphics system
+#/vis/open OGLIX
+/vis/open VRML2FILE
+#
+/vis/drawVolume
+/vis/viewer/flush
+/vis/viewer/reset
+/vis/viewer/set/style surface
+#/vis/viewer/set/style wireframe
+/vis/scene/add/volume
+/vis/scene/add/axes 0 0 0 2 m
+/vis/viewer/set/viewpointThetaPhi 40 10 deg
+/vis/viewer/zoom 1.1
+/vis/viewer/flush
+#
+# for drawing the tracks
+/tracking/storeTrajectory 1
+/vis/scene/add/trajectories
+/vis/filtering/trajectories/create/particleFilter
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/scene/endOfEventAction accumulate
+#
+#/run/particle/verbose 0
+/run/beamOn 1
+
